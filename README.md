@@ -1,3 +1,3 @@
 # javascript-alura-training
 
-Treinamento Javascript cangaceiro da Alura
+*Javascript Cangaceiro* Alura's training
