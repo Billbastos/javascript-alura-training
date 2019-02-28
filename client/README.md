@@ -517,4 +517,40 @@ CURSO 3
 
 10 - Trabalhando com modulos
 ------------------------------
+  - ES6 Define export e import e que cada arquivo é um modulo
+  - export class View { ... }
+  - Dentro do MensagemView.js `import { View } from './View'`
+  - export class MensagemView() { ... }
+  - E assim por diante ...
+
+11 - Carregamento dos modulos
+------------------------------
+  - Loader de scripts (SystemJS)
+  - `npm install systemjs@0.19.31 --save`
+  - importar o systemjs dentro do index.html
+    - <script src="node_modules/systemjs/dist/system.js"></script>
+  - indicando o primeiro modulo que vai ser carregado pelo systemjs
+  - <script>
+      System.defaultJSExtensions = true;
+      System.import('js/app/boot').catch(function(err){
+        console.error(err);
+      });
+    </script>
+  - Criar o arquivo boot.js na pasta js/app
+  - Esse arquivo deve importar os pollyfills e o controller principal
+  - Instalar o plugin do Babel para usar o SystemJS `npm install babel-plugin-transform-es2015-modules-systemjs@6.9.0 --save-dev`
+  - No .babelrc, adicionar o plugin instalado "plugins":["transform-es2015-modules-systemjs"]
+  - rodar `npm run build`
+
+12 - Ordenando os dados da tabela sem o controller no escopo global
+------------------------------
+  - No Controller, ao inves de exportar a classe, criar uma variavel que recebe a instancia da classe e export a instancia ao inves da classe;
+  - No final do arquivo adicionar `let negociacaoController = new NegociacaoController();`
+  - Exportar a instancia:
+  export function currentInstance() {
+    return negociacaoController;
+  }
+  - No boot.js, ao inves de importar `NegociacaoController`, importar a `currentInstance`
+  - import { `currentInstance` } from '../controllers/NegociacaoController'
+  - no construtor da view que recebe o elemento, nós podemos caçar a tag clicada, no caso procurar por `th` e ordenar a lista atraves do `currentInstance.ordena(element.target.textcontent.toLowercase())`
 
